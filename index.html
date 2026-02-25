@@ -315,6 +315,35 @@
   }
   footer strong { color: var(--terracotta); }
 
+  /* ── VER MÁS button ── */
+  .more-btn {
+    background: none;
+    border: none;
+    color: var(--terracotta);
+    font-size: .75rem;
+    cursor: pointer;
+    padding: 0;
+    font-family: inherit;
+  }
+  .more-btn:hover { text-decoration: underline; }
+
+  /* ── SOCIAL LINE ── */
+  .card-social {
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+    font-size: .72rem;
+    color: var(--mid);
+    margin-top: .15rem;
+    line-height: 1.2;
+  }
+  .card-social svg { flex-shrink: 0; opacity: .6; }
+  .social-link {
+    color: var(--sky);
+    text-decoration: none;
+  }
+  .social-link:hover { text-decoration: underline; }
+
   @media (max-width: 600px) {
     header, .controls, .grid, .stats-bar { padding-left: 1.2rem; padding-right: 1.2rem; }
     .grid { grid-template-columns: 1fr; }
@@ -365,85 +394,155 @@
 <script>
 const COLORS = ['#C4714A','#7A8C6E','#5C87A3','#C4647A','#D4A853','#8B6FAE','#4A8C8C','#A05B37'];
 
-const entries = [
-  { name:"Karen Niño", service:"Servicio de limpieza de departamento", phone:"811824787", social:"", discount:true, resident:true, cat:"otros" },
-  { name:"David Aguilar Flores", service:"Servicios Contables y Legales (Asesoría fiscal)", phone:"8113837244", social:"www.faec.mx", discount:true, resident:true, cat:"finanzas" },
-  { name:"Alejandra Torres", service:"Ginecología y obstetricia", phone:"8110273369", social:"Dra Alejandra Torres medicina materno fetal", discount:false, resident:true, cat:"salud" },
-  { name:"Andrew Martinez", service:"Property Management", phone:"8140080310", social:"", discount:true, resident:true, cat:"otros" },
-  { name:"Anya Yamilia Adame Gutiérrez", service:"Cirugía general y cirugía de mama", phone:"8110195167", social:"@dra.anyaadame", discount:true, resident:true, cat:"salud" },
-  { name:"Silvia Ovalle", service:"Carrito de elotes", phone:"8111857041", social:"@coolparty01", discount:true, resident:false, cat:"food" },
-  { name:"Leonardo Valdez", service:"Ingeniería eléctrica, automatización, electrónica", phone:"5526685937", social:"", discount:true, resident:true, cat:"tech" },
-  { name:"Armando Ramírez", service:"Agente de seguros (GMM, retiro, auto, hogar)", phone:"8123218560", social:"armandosegurosrmz", discount:true, resident:true, cat:"finanzas" },
-  { name:"Jesús Charles", service:"Asesor en Inversiones", phone:"8112551699", social:"www.finamex.com.mx", discount:false, resident:false, cat:"finanzas" },
-  { name:"Clara Maria Morales Arriaga", service:"Papas endiabladas", phone:"8117434976", social:"La Papa Wapa", discount:true, resident:true, cat:"food" },
-  { name:"Reyna Meza", service:"Carpintería (cocinas, closets, tocadores)", phone:"8118050647", social:"MOVA", discount:true, resident:true, cat:"construccion" },
-  { name:"Diana Castillo", service:"Clases de apoyo escolar, niñera, manicure (próximamente)", phone:"8120068717", social:"", discount:true, resident:true, cat:"educacion" },
-  { name:"Jesús Eduardo Flores Villarreal", service:"Venta, mantenimiento e instalación de climas", phone:"8115126167", social:"", discount:false, resident:false, cat:"otros" },
-  { name:"Victor Martinez", service:"Contador Fiscalista", phone:"8117032115", social:"", discount:true, resident:true, cat:"finanzas" },
-  { name:"Monica Lara", service:"Médico estético", phone:"8331571431", social:"@dramonicalaraanaya", discount:true, resident:false, cat:"salud" },
-  { name:"Alena", service:"Taller de impresión 3D de cerámica, proyectos de cerámica", phone:"8110715004", social:"Thrasos 3D", discount:true, resident:true, cat:"otros" },
-  { name:"Alondra Gómez", service:"Cafetería", phone:"8671191745", social:"", discount:false, resident:true, cat:"food" },
-  { name:"Oscar Hernandez", service:"Director y productor de contenidos", phone:"3311952382", social:"@greeneyefilms", discount:true, resident:true, cat:"otros" },
-  { name:"Erick Alejandro Vargas Soto", service:"Ginecología y obstetricia", phone:"8115446998", social:"Dr. Erick Vargas Soto", discount:true, resident:true, cat:"salud" },
-  { name:"Maythe Nevarez", service:"Extensiones de pestañas, lifting, laminado de cejas, henna brows, depilación", phone:"8132104676", social:"@lookatmebeauty1", discount:true, resident:true, cat:"belleza" },
-  { name:"Ivan Villagrana", service:"Refrescos y chilaquiles", phone:"8712400491", social:"", discount:false, resident:true, cat:"food" },
-  { name:"Dra. Nayeli Montoya", service:"Dentista", phone:"+526862335277", social:"@dra.nayelimontoya", discount:false, resident:true, cat:"salud" },
-  { name:"Raul Tejeda", service:"Refacciones y accesorios para autos, seguridad patrimonial", phone:"8117959414", social:"", discount:true, resident:true, cat:"otros" },
-  { name:"Pablo Sauceda", service:"Contador Público", phone:"8125954013", social:"", discount:false, resident:true, cat:"finanzas" },
-  { name:"Javier Meneses", service:"Fabricación en acero inoxidable y equipo de cocina industrial", phone:"8113935270", social:"", discount:true, resident:true, cat:"otros" },
-  { name:"Andrea Lucia Guerra Herrera", service:"Piercings", phone:"+528114952855", social:"lucky.and.pokes", discount:true, resident:true, cat:"belleza" },
-  { name:"Edgar Vacio Viveros", service:"Contador / Administrador / Consultor TI", phone:"4491111816", social:"", discount:false, resident:true, cat:"finanzas" },
-  { name:"Alejandra Platas Padron", service:"Maestra de apoyo (preescolar y primaria), nutrióloga, niñera", phone:"8211043536", social:"nutri.aleplatas / Ale.marisolp", discount:true, resident:true, cat:"educacion" },
-  { name:"Luis Mey", service:"Fumigación", phone:"8112406169", social:"Ravena Fumigaciones", discount:true, resident:false, cat:"otros" },
-  { name:"Mariana Sanchez", service:"Venta de arepas venezolanas y tequeños", phone:"8123108370", social:"", discount:true, resident:true, cat:"food" },
-  { name:"M.I. Ricardo Guerrero Morín", service:"Ingeniero estructurista, asesorías de ingeniería, física y matemáticas", phone:"8116407437", social:"", discount:true, resident:true, cat:"educacion" },
-  { name:"Luis Enrique Meza", service:"Desarrollo de Software", phone:"6672039197", social:"kiria.dev", discount:true, resident:true, cat:"tech" },
-  { name:"Karen Garcia", service:"Arquitectura, diseño interior y construcción", phone:"8116528319", social:"", discount:false, resident:true, cat:"construccion" },
-  { name:"Edgar Sánchez Hernández", service:"Abogado especializado", phone:"8662110864", social:"LinkedIn: licedgarsanchezhernandez", discount:false, resident:true, cat:"legal" },
-  { name:"Lic. Fernando Becerra Solar", service:"Servicios jurídicos: mercantil, civil, familiar, laboral, marcas, arrendamientos", phone:"8113800368", social:"B&BLEGALCONSULTING", discount:true, resident:false, cat:"legal" },
-  { name:"Marcela Miranda", service:"Notaría Pública / Abogada Corporativa", phone:"8181130798", social:"", discount:true, resident:true, cat:"legal" },
-  { name:"Alendayí Sánchez", service:"Publicidad impresa, uniformes, promocionales, lonas, viniles, catering", phone:"8183663311", social:"@alesa.comercializadora", discount:false, resident:true, cat:"otros" },
-  { name:"Laura Lizeth Ramírez Suárez", service:"Abogada laboralista (defensa patronal y trabajadores)", phone:"8114755085", social:"", discount:true, resident:true, cat:"legal" },
-  { name:"Marlen Martínez", service:"Marlea Nails — uñas", phone:"8123308053", social:"Marlea Nails", discount:false, resident:true, cat:"belleza" },
-  { name:"Cesar Iván Castillo Neri", service:"Médico veterinario", phone:"8125900364", social:"", discount:false, resident:true, cat:"salud" },
-  { name:"Fidel Ibarra", service:"Arquitecto - Interiorista", phone:"8186929895", social:"@fidelibarra_estudio", discount:true, resident:false, cat:"construccion" },
-  { name:"Sergio Romo", service:"Taller mecánico eléctrico", phone:"8110062422", social:"Romo Car Maintenance", discount:true, resident:true, cat:"otros" },
-  { name:"Kevin Maldonado", service:"Fisioterapia y rehabilitación", phone:"8114737387", social:"Fisaut", discount:false, resident:false, cat:"salud" },
-  { name:"Luis Treviño", service:"Aire acondicionado", phone:"8119653534", social:"TREVAAC aire acondicionado", discount:true, resident:true, cat:"otros" },
-  { name:"Arturo González", service:"Despacho legal corporativo (empresa, marcas, contratos, cumplimiento)", phone:"8114135578", social:"www.e-lex.com.mx", discount:true, resident:false, cat:"legal" },
-  { name:"JESUS ANGEL SAUCEDO RUIZ", service:"Asesor profesional de seguros", phone:"8442467350", social:"PROTEG", discount:true, resident:false, cat:"finanzas" },
-  { name:"Samuel Félix", service:"Ingeniero mecatrónico, impresiones 3D, hielo seco CO₂, limpieza criogénica", phone:"8110661649", social:"carbogas", discount:false, resident:true, cat:"tech" },
-  { name:"Kevin O Flores Vega", service:"Arquitecto", phone:"8182879525", social:"", discount:true, resident:false, cat:"construccion" },
-  { name:"Paula Alejandrina Mercado Morales", service:"Maquillaje social, artístico, editorial", phone:"8113492977", social:"@lookatthebrush", discount:true, resident:true, cat:"belleza" },
-  { name:"Cristian Borja", service:"Contador público (asesorías, contabilidad, planeación fiscal)", phone:"8110282945", social:"@amc_empresariales.mx", discount:true, resident:false, cat:"finanzas" },
-  { name:"Marlene Leal", service:"Psicóloga clínica", phone:"8281193266", social:"@en.busca.de.saludmental", discount:false, resident:true, cat:"salud" },
-  { name:"Daniela Cantú", service:"Logística de ventas (importaciones / exportaciones)", phone:"8112558539", social:"hikercargo.com", discount:false, resident:true, cat:"otros" },
-  { name:"Renee Mariel", service:"Maestra de yoga", phone:"8672120930", social:"", discount:true, resident:true, cat:"educacion" },
-  { name:"Sara Valeria Ciriaco Hernández", service:"Fisioterapeuta y coach de ejercicio personalizado", phone:"8124792902", social:"marmaphysio", discount:false, resident:true, cat:"salud" },
-  { name:"Yemile Cárdenas", service:"Ginecóloga", phone:"8119905774", social:"Dra Yemile Cárdenas", discount:true, resident:true, cat:"salud" },
-  { name:"Armando Tinajero", service:"Ingeniería de datos y automatizaciones", phone:"6142211151", social:"", discount:false, resident:false, cat:"tech" },
-  { name:"Ivan Leija", service:"Clases de golf, aromaterapia y perfumes", phone:"8991115582", social:"ivanleijagolf / ambaressence", discount:true, resident:true, cat:"otros" },
-  { name:"Javier Bueno", service:"Consultoría informática y ciberseguridad, Sex Shop, Tarot", phone:"8114755152", social:"@lilithsxshop", discount:true, resident:true, cat:"tech" },
+// ── CATEGORY RULES — edit here to classify new entries ──
+// First matching rule wins; entries with no match go to "otros"
+const CATEGORY_RULES = [
+  { cat:'salud',        kw:['ginecólog','ginecolog','médic','dentist','fisioter','psicólog','psicolog','veterinar','cirugía','cirugia','obstetrici','rehabilitación','rehabilitacion','estético','estetico','nutriólog','nutri[oó]log','clínica','clinica','coach de ejercicio'] },
+  { cat:'legal',        kw:['abogad','notarí','notari','jurídic','juridic','laboral','mercantil','arrendamiento','derechos humanos','servicios jurídicos','servicios juridicos'] },
+  { cat:'construccion', kw:['arquitect','carpinter','closet','interioris','acero inoxidable','cocinas industrial','diseño interior','diseño de interiores','refrigeración','cocción'] },
+  { cat:'tech',         kw:['software','informátic','informatic','ciberseguridad','impresión 3d','impresion 3d','eléctric','electric','automatización','automatizacion','mecatrónic','mecatronic','ingeniería de datos','tecnología de la información','tecnologia de la informacion','hielo seco','criogén','criogen'] },
+  { cat:'food',         kw:['elotes','papas endiabladas','cafeter','refrescos','chilaquiles','chilquiles','arepas','tequeños','teque'] },
+  { cat:'belleza',      kw:['pestañas','pestaña','cejas','maquillaje','nails','manicure','lifting','laminado','henna','depilación','depilacion','piercings','marlea nails'] },
+  { cat:'educacion',    kw:['maestra.*apoyo','maestr.*apoyo','apoyo escolar','maestra de yoga','clases de golf','clases de apoyo','doctorado en educación','doctorado en educacion'] },
+  { cat:'finanzas',     kw:['contador','contable','inversiones','seguros','fiscal','contabilidad','property management','asesor.*seguro','asesor.*inversión','asesor.*inversion'] },
 ];
 
+function assignCategory(service) {
+  const s = service.toLowerCase();
+  for (const rule of CATEGORY_RULES) {
+    if (rule.kw.some(k => new RegExp(k, 'i').test(s))) return rule.cat;
+  }
+  return 'otros';
+}
+
+// ── CSV PARSER (handles quoted fields with embedded commas and newlines) ──
+function parseCsv(text) {
+  const rows = [];
+  let row = [], field = '', inQ = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (inQ) {
+      if (c === '"' && text[i+1] === '"') { field += '"'; i++; }
+      else if (c === '"') { inQ = false; }
+      else { field += c; }
+    } else {
+      if (c === '"') { inQ = true; }
+      else if (c === ',') { row.push(field); field = ''; }
+      else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+      else if (c !== '\r') { field += c; }
+    }
+  }
+  if (field || row.length) { row.push(field); rows.push(row); }
+  return rows;
+}
+
+// ── MAP CSV ROW → ENTRY OBJECT ──
+// Columns: [0]Timestamp [1]Nombre [2]Servicio [3]EnMonteleva [4]Residente [5]Teléfono [6]Redes [7]Descuento
+function mapRow(row) {
+  if (row.length < 6) return null;
+  const name    = row[1].trim();
+  const service = row[2].trim();
+  const resident = ['Sí','Si','Propietario residente'].includes(row[4].trim());
+  const phone    = (row[5] || '').trim();
+  const social   = (row[6] || '').trim();
+  const discount = (row[7] || '').trim() === 'Sí';
+  return { name, service, resident, phone, social, discount, cat: assignCategory(service) };
+}
+
+// ── SOCIAL FIELD: clean & render ──
+const NA_RE = /^(NA|N\/A|-+|—+|sin redes.*|no tengo.*|por ahora no.*|aún no.*|dept.*|no cuento.*)$/i;
+
+function cleanSocial(raw) {
+  const lines = raw.split('\n').map(l => l.trim()).filter(Boolean);
+  const val = lines[0] || '';
+  return (!val || NA_RE.test(val)) ? '' : val;
+}
+
+function socialHtml(raw) {
+  const val = cleanSocial(raw);
+  if (!val) return '';
+
+  let display = val, href = '';
+
+  const igMatch  = val.match(/instagram\.com\/([^?/\s&]+)/i);
+  const fbMatch  = val.match(/facebook\.com\/([^?/\s&]+)/i);
+  const liMatch  = val.match(/linkedin\.com\/in\/([^?/\s&]+)/i);
+
+  if (igMatch) {
+    display = '@' + igMatch[1];
+    href = 'https://instagram.com/' + igMatch[1];
+  } else if (fbMatch) {
+    display = '@' + fbMatch[1];
+    href = 'https://facebook.com/' + fbMatch[1];
+  } else if (liMatch) {
+    display = liMatch[1];
+    href = 'https://linkedin.com/in/' + liMatch[1];
+  } else if (val.startsWith('@')) {
+    display = val;
+    href = 'https://instagram.com/' + val.slice(1);
+  } else if (/^https?:\/\//i.test(val) || /^www\./i.test(val)) {
+    try {
+      const url = val.startsWith('http') ? val : 'https://' + val;
+      display = new URL(url).hostname.replace(/^www\./, '');
+      href = url;
+    } catch(e) { display = val.slice(0, 35); href = ''; }
+  }
+
+  const linkIcon = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`;
+  const inner = href
+    ? `<a class="social-link" href="${escHtml(href)}" target="_blank" rel="noopener">${escHtml(display)}</a>`
+    : `<span>${escHtml(display)}</span>`;
+
+  return `<div class="card-social">${linkIcon}${inner}</div>`;
+}
+
+// ── UTILITIES ──
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 function initials(name) {
   return name.split(' ').filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase();
 }
 function colorForName(name) {
   let h = 0;
-  for(let c of name) h = (h*31 + c.charCodeAt(0)) & 0xffffffff;
+  for (const c of name) h = (h*31 + c.charCodeAt(0)) & 0xffffffff;
   return COLORS[Math.abs(h) % COLORS.length];
 }
 function formatPhone(p) {
-  return p.replace(/\D/g,'').replace(/^52/,'');
+  return p.replace(/[\s\u200b]/g,'').replace(/[^0-9+]/g,'').replace(/^\+?52/,'');
 }
 
+// ── "VER MÁS" toggle ──
+const LIMIT = 150;
+
+function serviceHtml(text, idx) {
+  const clean = text.replace(/\n+/g, ' ').trim();
+  const safe  = escHtml(clean);
+  if (clean.length <= LIMIT) return `<div class="card-service">${safe}</div>`;
+  const short = escHtml(clean.slice(0, LIMIT));
+  return `<div class="card-service">` +
+    `<span id="ss${idx}">${short}… <button class="more-btn" onclick="toggleSvc(${idx})">Ver más</button></span>` +
+    `<span id="sf${idx}" style="display:none">${safe} <button class="more-btn" onclick="toggleSvc(${idx})">Ver menos</button></span>` +
+    `</div>`;
+}
+
+function toggleSvc(idx) {
+  const s = document.getElementById('ss' + idx);
+  const f = document.getElementById('sf' + idx);
+  const showFull = s.style.display !== 'none';
+  s.style.display = showFull ? 'none' : '';
+  f.style.display = showFull ? ''     : 'none';
+}
+
+// ── STATE ──
 let activeFilter = 'todos';
 let searchTerm = '';
+let currentEntries = [];
 
+// ── RENDER ──
 function render() {
   const grid = document.getElementById('grid');
-  const filtered = entries.filter(e => {
+  const filtered = currentEntries.filter(e => {
     const matchCat = activeFilter === 'todos' || e.cat === activeFilter;
     const q = searchTerm.toLowerCase();
     const matchSearch = !q || e.name.toLowerCase().includes(q) || e.service.toLowerCase().includes(q);
@@ -453,18 +552,24 @@ function render() {
   filtered.sort((a,b) => a.name.localeCompare(b.name, 'es'));
   document.getElementById('count').textContent = filtered.length;
 
-  if(!filtered.length) {
+  if (!filtered.length) {
     grid.innerHTML = `<div class="empty"><span>🔍</span><p>No encontramos vecinos con ese criterio.</p></div>`;
     return;
   }
 
-  grid.innerHTML = filtered.map((e,i) => {
+  grid.innerHTML = filtered.map((e, i) => {
     const color = colorForName(e.name);
-    const init = initials(e.name);
+    const init  = initials(e.name);
     const phone = formatPhone(e.phone);
     const badge = e.resident
       ? `<span class="badge-resident">Residente</span>`
       : `<span class="badge-outside">Externo</span>`;
+    const phoneHtml = phone && phone.length > 3
+      ? `<a class="phone-link" href="tel:+52${phone}">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.62 3.38 2 2 0 0 1 3.59 1.2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.73a16 16 0 0 0 6 6l.93-.93a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.5 16.92z"/></svg>
+          ${phone}
+        </a>`
+      : '';
 
     return `
     <div class="card" style="animation-delay:${i*0.03}s">
@@ -472,23 +577,48 @@ function render() {
         <div style="display:flex;align-items:center;gap:.65rem;">
           <div class="avatar" style="background:${color}">${init}</div>
           <div>
-            <div class="card-name">${e.name}</div>
+            <div class="card-name">${escHtml(e.name)}</div>
+            ${socialHtml(e.social)}
           </div>
         </div>
         ${badge}
       </div>
-      <div class="card-service">${e.service}</div>
+      ${serviceHtml(e.service, i)}
       <div class="card-footer">
-        <a class="phone-link" href="tel:${phone}">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.62 3.38 2 2 0 0 1 3.59 1.2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.73a16 16 0 0 0 6 6l.93-.93a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.5 16.92z"/></svg>
-          ${phone}
-        </a>
+        ${phoneHtml}
         ${e.discount ? '<span class="discount-tag">🏷 Descuento vecino</span>' : ''}
       </div>
     </div>`;
   }).join('');
 }
 
+// ── LOAD CSV ──
+fetch('Datos de contacto.csv')
+  .then(r => {
+    if (!r.ok) throw new Error('No se pudo cargar el directorio');
+    return r.text();
+  })
+  .then(text => {
+    const seen = new Set();
+    currentEntries = parseCsv(text)
+      .slice(1) // skip header row
+      .map(mapRow)
+      .filter(e => {
+        if (!e || !e.name || !e.service || e.service === '-') return false;
+        // Drop exact duplicates (same name + phone + service)
+        const key = e.name + '|' + e.phone + '|' + e.service;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+    render();
+  })
+  .catch(err => {
+    document.getElementById('grid').innerHTML =
+      `<div class="empty"><span>⚠️</span><p>${escHtml(err.message)}</p></div>`;
+  });
+
+// ── EVENTS ──
 document.getElementById('searchInput').addEventListener('input', e => {
   searchTerm = e.target.value;
   render();
@@ -496,14 +626,12 @@ document.getElementById('searchInput').addEventListener('input', e => {
 
 document.getElementById('filters').addEventListener('click', e => {
   const pill = e.target.closest('.pill');
-  if(!pill) return;
+  if (!pill) return;
   document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
   pill.classList.add('active');
   activeFilter = pill.dataset.cat;
   render();
 });
-
-render();
 </script>
 </body>
 </html>
