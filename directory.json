@@ -341,7 +341,7 @@
     "resident": true,
     "phone": "8211043536",
     "discount": true,
-    "cat": "educacion",
+    "cat": "otros",
     "hidden": false,
     "socialMode": "link",
     "socialDisplay": "@Ale.marisolp",
@@ -353,7 +353,7 @@
     "resident": true,
     "phone": "8211043536",
     "discount": true,
-    "cat": "salud",
+    "cat": "otros",
     "hidden": false,
     "socialMode": "link",
     "socialDisplay": "@Ale.marisolp",
@@ -415,9 +415,9 @@
     "discount": true,
     "cat": "tech",
     "hidden": false,
-    "socialMode": "google",
-    "socialDisplay": "Kiria.dev (Instagram) www.kiria.dev (web)",
-    "socialUrl": "https://www.google.com/search?q=Kiria.dev%20(Instagram)%20www.kiria.dev%20(web)"
+    "socialMode": "link",
+    "socialDisplay": "kiria.dev",
+    "socialUrl": "https://kiria.dev"
   },
   {
     "name": "Karen Garcia",
@@ -790,5 +790,17 @@
     "socialMode": "link",
     "socialDisplay": "@lilithsxshop",
     "socialUrl": "https://instagram.com/lilithsxshop"
+  },
+  {
+    "name": "Karen Segoviano",
+    "service": "Consultoria de Software (Apps y sitios web a la medida)",
+    "resident": true,
+    "phone": "8113710917 o 8123726679",
+    "discount": true,
+    "cat": "tech",
+    "hidden": false,
+    "socialMode": "link",
+    "socialDisplay": "@kiria.dev",
+    "socialUrl": "https://instagram.com/kiria.dev"
   }
 ]
