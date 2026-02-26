@@ -380,8 +380,9 @@ function mapCsvRow(row) {
   const discount = (row[7] || '').trim() === 'Sí';
   const detected = detectSocial(socialRaw);
   const suggestedCat = autoCategory(service);
+  const id = computeId(name, service, phone);
   return {
-    name, service, resident, phone, discount,
+    id, name, service, resident, phone, discount,
     hidden: false,
     socialRaw,
     socialMode: detected.mode,         // hide | link | text | google
@@ -395,6 +396,12 @@ function mapCsvRow(row) {
   };
 }
 
+// Stable ID from row content — distinguishes multiple entries from same person
+function computeId(name, service, phone) {
+  return [name, service, phone]
+    .map(s => (s || '').trim().toLowerCase().replace(/\s+/g, ' '))
+    .join('||');
+}
 function entryKey(e) {
   return ((e.name || '') + '|' + (e.phone || '')).toLowerCase().trim();
 }
@@ -404,8 +411,9 @@ function entryKeyName(e) {
 
 // ── STATE ──
 let entries = [];
-let jsonBase = {};      // keyed by name|phone
-let jsonBaseByName = {}; // keyed by name only (fallback)
+let jsonBase = {};       // keyed by name|phone (legacy)
+let jsonBaseByName = {}; // keyed by name only (legacy fallback)
+let jsonBaseById = {};   // keyed by stable id (primary)
 let activeFilter = 'todos';
 let openEditorIdx = null;  // index of row with open social editor
 
@@ -430,8 +438,8 @@ function processCsv(text, filename) {
     const dedupKey = e.name + '|' + e.phone + '|' + e.service;
     if (seen.has(dedupKey)) continue;
     seen.add(dedupKey);
-    // Merge from existing JSON base (try name|phone first, fall back to name only)
-    const prev = jsonBase[entryKey(e)] || jsonBaseByName[entryKeyName(e)];
+    // Merge: id (exact) → name|phone → name-only fallback
+    const prev = jsonBaseById[e.id] || jsonBase[entryKey(e)] || jsonBaseByName[entryKeyName(e)];
     if (prev) {
       e.cat           = prev.cat;
       e.hidden        = prev.hidden        ?? false;
@@ -483,13 +491,17 @@ function applyJson(data, filename) {
   if (!Array.isArray(data)) data = [];
   jsonBase = {};
   jsonBaseByName = {};
+  jsonBaseById = {};
   for (const e of data) {
+    // Compute id for JSON entries that don't have one yet (backwards compat)
+    const id = e.id || computeId(e.name, e.service, e.phone);
+    jsonBaseById[id] = e;
     jsonBase[entryKey(e)] = e;
     jsonBaseByName[entryKeyName(e)] = e;
   }
   // Re-apply to already-loaded entries
   for (const e of entries) {
-    const prev = jsonBase[entryKey(e)] || jsonBaseByName[entryKeyName(e)];
+    const prev = jsonBaseById[e.id] || jsonBase[entryKey(e)] || jsonBaseByName[entryKeyName(e)];
     if (prev) {
       e.cat           = prev.cat;
       e.hidden        = prev.hidden        ?? false;
@@ -712,6 +724,7 @@ function exportJson() {
       finalUrl = 'https://www.google.com/search?q=' + encodeURIComponent(e.socialDisplay);
     }
     return {
+      id: e.id || computeId(e.name, e.service, e.phone),
       name: e.name, service: e.service, resident: e.resident,
       phone: e.phone, discount: e.discount, cat: e.cat,
       hidden: e.hidden || false,
