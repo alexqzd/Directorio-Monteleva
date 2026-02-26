@@ -861,7 +861,7 @@
     "name": "Karen Segoviano",
     "service": "Consultoria de Software (Apps y sitios web a la medida)",
     "resident": true,
-    "phone": "8113710917 o 8123726679",
+    "phone": ["8113710917", "8123726679"],
     "discount": true,
     "cat": "tech",
     "hidden": false,

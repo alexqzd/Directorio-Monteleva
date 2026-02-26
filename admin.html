@@ -603,7 +603,7 @@ function renderTable() {
     rows.push(`<tr class="${isOtros ? 'row-otros' : ''}${e.hidden ? ' row-hidden' : ''}" data-gi="${gi}">
       <td class="td-name">${escHtml(e.name)}</td>
       <td class="td-svc" title="${escHtml(e.service)}">${escHtml(e.service.length>55 ? e.service.slice(0,55)+'…' : e.service)}</td>
-      <td class="td-phone">${escHtml(e.phone||'—')}</td>
+      <td class="td-phone">${escHtml(Array.isArray(e.phone) ? e.phone.join(' / ') : (e.phone||'—'))}</td>
       <td style="text-align:center">${e.resident ? '🏠' : '—'}</td>
       <td>${autoLabel}</td>
       <td><select class="cat-sel" onchange="updateCat(${gi},this.value)">${catOptions}</select></td>
