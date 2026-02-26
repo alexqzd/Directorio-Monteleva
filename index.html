@@ -394,106 +394,16 @@
 <script>
 const COLORS = ['#C4714A','#7A8C6E','#5C87A3','#C4647A','#D4A853','#8B6FAE','#4A8C8C','#A05B37'];
 
-// ── CATEGORY RULES — edit here to classify new entries ──
-// First matching rule wins; entries with no match go to "otros"
-const CATEGORY_RULES = [
-  { cat:'salud',        kw:['ginecólog','ginecolog','médic','dentist','fisioter','psicólog','psicolog','veterinar','cirugía','cirugia','obstetrici','rehabilitación','rehabilitacion','estético','estetico','nutriólog','nutri[oó]log','clínica','clinica','coach de ejercicio'] },
-  { cat:'legal',        kw:['abogad','notarí','notari','jurídic','juridic','laboral','mercantil','arrendamiento','derechos humanos','servicios jurídicos','servicios juridicos'] },
-  { cat:'construccion', kw:['arquitect','carpinter','closet','interioris','acero inoxidable','cocinas industrial','diseño interior','diseño de interiores','refrigeración','cocción'] },
-  { cat:'tech',         kw:['software','informátic','informatic','ciberseguridad','impresión 3d','impresion 3d','eléctric','electric','automatización','automatizacion','mecatrónic','mecatronic','ingeniería de datos','tecnología de la información','tecnologia de la informacion','hielo seco','criogén','criogen'] },
-  { cat:'food',         kw:['elotes','papas endiabladas','cafeter','refrescos','chilaquiles','chilquiles','arepas','tequeños','teque'] },
-  { cat:'belleza',      kw:['pestañas','pestaña','cejas','maquillaje','nails','manicure','lifting','laminado','henna','depilación','depilacion','piercings','marlea nails'] },
-  { cat:'educacion',    kw:['maestra.*apoyo','maestr.*apoyo','apoyo escolar','maestra de yoga','clases de golf','clases de apoyo','doctorado en educación','doctorado en educacion'] },
-  { cat:'finanzas',     kw:['contador','contable','inversiones','seguros','fiscal','contabilidad','property management','asesor.*seguro','asesor.*inversión','asesor.*inversion'] },
-];
-
-function assignCategory(service) {
-  const s = service.toLowerCase();
-  for (const rule of CATEGORY_RULES) {
-    if (rule.kw.some(k => new RegExp(k, 'i').test(s))) return rule.cat;
-  }
-  return 'otros';
-}
-
-// ── CSV PARSER (handles quoted fields with embedded commas and newlines) ──
-function parseCsv(text) {
-  const rows = [];
-  let row = [], field = '', inQ = false;
-  for (let i = 0; i < text.length; i++) {
-    const c = text[i];
-    if (inQ) {
-      if (c === '"' && text[i+1] === '"') { field += '"'; i++; }
-      else if (c === '"') { inQ = false; }
-      else { field += c; }
-    } else {
-      if (c === '"') { inQ = true; }
-      else if (c === ',') { row.push(field); field = ''; }
-      else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
-      else if (c !== '\r') { field += c; }
-    }
-  }
-  if (field || row.length) { row.push(field); rows.push(row); }
-  return rows;
-}
-
-// ── MAP CSV ROW → ENTRY OBJECT ──
-// Columns: [0]Timestamp [1]Nombre [2]Servicio [3]EnMonteleva [4]Residente [5]Teléfono [6]Redes [7]Descuento
-function mapRow(row) {
-  if (row.length < 6) return null;
-  const name    = row[1].trim();
-  const service = row[2].trim();
-  const resident = ['Sí','Si','Propietario residente'].includes(row[4].trim());
-  const phone    = (row[5] || '').trim();
-  const social   = (row[6] || '').trim();
-  const discount = (row[7] || '').trim() === 'Sí';
-  return { name, service, resident, phone, social, discount, cat: assignCategory(service) };
-}
-
-// ── SOCIAL FIELD: clean & render ──
-const NA_RE = /^(NA|N\/A|-+|—+|sin redes.*|no tengo.*|por ahora no.*|aún no.*|dept.*|no cuento.*)$/i;
-
-function cleanSocial(raw) {
-  const lines = raw.split('\n').map(l => l.trim()).filter(Boolean);
-  const val = lines[0] || '';
-  return (!val || NA_RE.test(val)) ? '' : val;
-}
-
-function socialHtml(raw) {
-  const val = cleanSocial(raw);
-  if (!val) return '';
-
-  let display = val, href = '';
-
-  const igMatch  = val.match(/instagram\.com\/([^?/\s&]+)/i);
-  const fbMatch  = val.match(/facebook\.com\/([^?/\s&]+)/i);
-  const liMatch  = val.match(/linkedin\.com\/in\/([^?/\s&]+)/i);
-
-  if (igMatch) {
-    display = '@' + igMatch[1];
-    href = 'https://instagram.com/' + igMatch[1];
-  } else if (fbMatch) {
-    display = '@' + fbMatch[1];
-    href = 'https://facebook.com/' + fbMatch[1];
-  } else if (liMatch) {
-    display = liMatch[1];
-    href = 'https://linkedin.com/in/' + liMatch[1];
-  } else if (val.startsWith('@')) {
-    display = val;
-    href = 'https://instagram.com/' + val.slice(1);
-  } else if (/^https?:\/\//i.test(val) || /^www\./i.test(val)) {
-    try {
-      const url = val.startsWith('http') ? val : 'https://' + val;
-      display = new URL(url).hostname.replace(/^www\./, '');
-      href = url;
-    } catch(e) { display = val.slice(0, 35); href = ''; }
-  }
-
-  const linkIcon = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`;
-  const inner = href
-    ? `<a class="social-link" href="${escHtml(href)}" target="_blank" rel="noopener">${escHtml(display)}</a>`
+// ── SOCIAL FIELD: render from pre-processed entry fields ──
+function socialHtml(e) {
+  const display = e.socialDisplay || '';
+  const url     = e.socialUrl     || '';
+  if (!display) return '';
+  const icon = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`;
+  const inner = url
+    ? `<a class="social-link" href="${escHtml(url)}" target="_blank" rel="noopener">${escHtml(display)}</a>`
     : `<span>${escHtml(display)}</span>`;
-
-  return `<div class="card-social">${linkIcon}${inner}</div>`;
+  return `<div class="card-social">${icon}${inner}</div>`;
 }
 
 // ── UTILITIES ──
@@ -543,6 +453,7 @@ let currentEntries = [];
 function render() {
   const grid = document.getElementById('grid');
   const filtered = currentEntries.filter(e => {
+    if (e.hidden) return false;
     const matchCat = activeFilter === 'todos' || e.cat === activeFilter;
     const q = searchTerm.toLowerCase();
     const matchSearch = !q || e.name.toLowerCase().includes(q) || e.service.toLowerCase().includes(q);
@@ -578,7 +489,7 @@ function render() {
           <div class="avatar" style="background:${color}">${init}</div>
           <div>
             <div class="card-name">${escHtml(e.name)}</div>
-            ${socialHtml(e.social)}
+            ${socialHtml(e)}
           </div>
         </div>
         ${badge}
@@ -592,25 +503,14 @@ function render() {
   }).join('');
 }
 
-// ── LOAD CSV ──
-fetch('Datos de contacto.csv')
+// ── LOAD DIRECTORY ──
+fetch('directory.json')
   .then(r => {
     if (!r.ok) throw new Error('No se pudo cargar el directorio');
-    return r.text();
+    return r.json();
   })
-  .then(text => {
-    const seen = new Set();
-    currentEntries = parseCsv(text)
-      .slice(1) // skip header row
-      .map(mapRow)
-      .filter(e => {
-        if (!e || !e.name || !e.service || e.service === '-') return false;
-        // Drop exact duplicates (same name + phone + service)
-        const key = e.name + '|' + e.phone + '|' + e.service;
-        if (seen.has(key)) return false;
-        seen.add(key);
-        return true;
-      });
+  .then(data => {
+    currentEntries = Array.isArray(data) ? data.filter(e => !e.hidden) : [];
     render();
   })
   .catch(err => {

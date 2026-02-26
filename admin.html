@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Directorio Monteleva</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F7F3ED;
+    --warm: #E8E0D5;
+    --terracotta: #C4714A;
+    --terracotta-dark: #A05B37;
+    --charcoal: #2A2420;
+    --mid: #6B5A50;
+    --gold: #D4A853;
+    --sage: #7A8C6E;
+    --sky: #5C87A3;
+    --green: #4A8C4A;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--cream); color: var(--charcoal); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+
+  /* HEADER */
+  header {
+    background: var(--charcoal);
+    padding: 1.6rem 3rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+  }
+  .header-tag {
+    display: inline-block; background: var(--terracotta); color: #fff;
+    font-size: .6rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
+    padding: .22rem .65rem; border-radius: 2px; margin-bottom: .4rem;
+  }
+  header h1 { font-family: 'Playfair Display', serif; font-size: 1.7rem; font-weight: 900; color: var(--cream); }
+  header h1 em { font-style: normal; color: var(--gold); }
+  .header-actions { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; }
+
+  /* BUTTONS */
+  .btn {
+    display: inline-flex; align-items: center; gap: .4rem;
+    padding: .5rem 1rem; border-radius: 6px;
+    font-family: 'DM Sans', sans-serif; font-size: .82rem; font-weight: 500;
+    cursor: pointer; border: none; transition: all .15s; text-decoration: none;
+  }
+  .btn-primary { background: var(--terracotta); color: #fff; }
+  .btn-primary:hover { background: var(--terracotta-dark); }
+  .btn-outline { background: transparent; border: 1.5px solid #6B5A50; color: #9A8A80; }
+  .btn-outline:hover { border-color: var(--terracotta); color: var(--terracotta); }
+  .btn-export { background: var(--green); color: #fff; }
+  .btn-export:hover { background: #3a7a3a; }
+  .btn:disabled { opacity: .4; cursor: not-allowed; pointer-events: none; }
+
+  /* SETUP */
+  .setup { max-width: 860px; margin: 2rem auto; padding: 0 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+  .setup-card { background: #fff; border: 1.5px solid #EAE3DB; border-radius: 10px; padding: 1.4rem 1.6rem; }
+  .setup-card h2 { font-family: 'Playfair Display', serif; font-size: .98rem; font-weight: 700; margin-bottom: .25rem; }
+  .setup-card p { font-size: .77rem; color: var(--mid); margin-bottom: 1rem; line-height: 1.5; }
+  code { background: var(--warm); padding: .1rem .35rem; border-radius: 3px; font-size: .78rem; }
+
+  /* DROP ZONE */
+  .drop-zone {
+    border: 2px dashed #C5B9AF; border-radius: 8px; padding: 1.5rem 1rem;
+    text-align: center; cursor: pointer; transition: all .18s; background: var(--cream);
+  }
+  .drop-zone:hover, .drop-zone.dragover { border-color: var(--terracotta); background: #fdf8f4; }
+  .drop-zone input { display: none; }
+  .drop-zone svg { color: var(--mid); margin-bottom: .45rem; }
+  .drop-zone span { display: block; font-size: .78rem; color: var(--mid); }
+  .drop-zone strong { color: var(--terracotta); }
+  .status-msg { margin-top: .65rem; font-size: .77rem; font-weight: 500; display: none; }
+  .status-msg.show { display: block; }
+  .status-ok { color: var(--green); }
+  .status-warn { color: var(--terracotta); }
+  .json-btns { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; }
+
+  /* STATS */
+  .stats { max-width: 1500px; margin: 0 auto 1rem; padding: 0 2rem; display: flex; gap: .8rem; flex-wrap: wrap; align-items: center; }
+  .stat-chip {
+    background: #fff; border: 1px solid #EAE3DB; border-radius: 20px;
+    padding: .28rem .85rem; font-size: .77rem; color: var(--mid); display: flex; align-items: center; gap: .3rem;
+  }
+  .stat-chip strong { color: var(--charcoal); }
+  .stat-chip.warn strong { color: var(--terracotta); }
+  .stat-chip.ok strong { color: var(--green); }
+
+  /* TOOLBAR */
+  .toolbar { max-width: 1500px; margin: 0 auto 1rem; padding: 0 2rem; display: flex; gap: .7rem; align-items: center; flex-wrap: wrap; }
+  .tb-search { flex: 1; min-width: 180px; position: relative; }
+  .tb-search input {
+    width: 100%; background: #fff; border: 1.5px solid #C5B9AF; border-radius: 6px;
+    padding: .48rem 1rem .48rem 2.3rem; font-family: 'DM Sans', sans-serif; font-size: .83rem; color: var(--charcoal); outline: none;
+  }
+  .tb-search input:focus { border-color: var(--terracotta); }
+  .tb-search svg { position: absolute; left: .68rem; top: 50%; transform: translateY(-50%); color: var(--mid); }
+  .pills { display: flex; gap: .35rem; flex-wrap: wrap; }
+  .pill {
+    background: #fff; border: 1.5px solid #C5B9AF; color: var(--mid);
+    font-family: 'DM Sans', sans-serif; font-size: .73rem; font-weight: 500;
+    padding: .28rem .7rem; border-radius: 20px; cursor: pointer; transition: all .14s;
+  }
+  .pill:hover, .pill.active { background: var(--terracotta); border-color: var(--terracotta); color: #fff; }
+  .pill-warn { border-color: var(--terracotta); color: var(--terracotta); background: #fff3f0; }
+  .pill-warn.active, .pill-warn:hover { background: var(--terracotta); color: #fff; }
+
+  /* TABLE */
+  .table-wrap { max-width: 1500px; margin: 0 auto; padding: 0 2rem 4rem; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: .81rem; background: #fff; border-radius: 10px; overflow: hidden; border: 1px solid #EAE3DB; }
+  thead { background: var(--charcoal); color: var(--cream); }
+  th { padding: .7rem 1rem; font-weight: 500; font-size: .72rem; letter-spacing: .05em; text-align: left; white-space: nowrap; }
+  td { padding: .55rem .9rem; border-bottom: 1px solid #EAE3DB; vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #faf7f4; }
+  tr.row-otros td:first-child { border-left: 3px solid var(--terracotta); }
+  tr.row-editor td { background: #f9f6f2; border-bottom: 2px solid #EAE3DB; padding: 1rem 1.2rem; }
+
+  .td-name { font-weight: 500; white-space: nowrap; }
+  .td-svc { max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--mid); }
+  .td-phone { white-space: nowrap; color: var(--mid); font-size: .76rem; }
+
+  /* category select */
+  .cat-sel {
+    background: #fff; border: 1.5px solid #C5B9AF; border-radius: 5px;
+    padding: .28rem .55rem; font-family: 'DM Sans', sans-serif; font-size: .77rem; cursor: pointer; outline: none;
+  }
+  .cat-sel:focus { border-color: var(--terracotta); }
+
+  /* source / hint badges */
+  .badge {
+    font-size: .6rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase;
+    padding: .16rem .42rem; border-radius: 10px; white-space: nowrap;
+  }
+  .badge-manual { background: #EEF5F0; color: var(--sage); border: 1px solid #C8DCC5; }
+  .badge-auto   { background: #F3F0FB; color: var(--sky);  border: 1px solid #C5D4E0; }
+  .badge-new    { background: #FFF6E5; color: var(--gold); border: 1px solid #F0D89A; }
+  .badge-ig     { background: #fce8f4; color: #c2348a; border: 1px solid #f0b8dc; }
+  .badge-fb     { background: #e8eefb; color: #1877F2; border: 1px solid #b8ccf0; }
+  .badge-li     { background: #e8f0fb; color: #0077b5; border: 1px solid #b8d0f0; }
+  .badge-url    { background: #e8f5ef; color: var(--green); border: 1px solid #b8d8c5; }
+  .badge-text   { background: var(--warm); color: var(--mid); border: 1px solid #C5B9AF; }
+  .badge-hide   { background: #f5e8e8; color: #a03a3a; border: 1px solid #dbb8b8; }
+  .badge-google { background: #fffbe8; color: #b08800; border: 1px solid #e0d090; }
+  .badge-unknown { background: var(--warm); color: var(--mid); border: 1px solid #C5B9AF; }
+
+  /* social cell */
+  .social-cell { display: flex; align-items: center; gap: .45rem; }
+  .social-preview { font-size: .76rem; color: var(--mid); max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .edit-social-btn {
+    font-size: .68rem; color: var(--sky); background: none; border: none; cursor: pointer;
+    padding: .15rem .35rem; border-radius: 4px; white-space: nowrap;
+  }
+  .edit-social-btn:hover { background: #e8f0fb; }
+
+  /* hide toggle */
+  .hide-btn {
+    font-size: .68rem; background: none; border: 1.5px solid #C5B9AF; cursor: pointer;
+    padding: .2rem .5rem; border-radius: 12px; color: var(--mid); transition: all .14s; white-space: nowrap;
+  }
+  .hide-btn:hover { border-color: #a03a3a; color: #a03a3a; background: #fdf0f0; }
+  .hide-btn.hidden-active { background: #fdf0f0; border-color: #a03a3a; color: #a03a3a; }
+  tr.row-hidden td { opacity: .4; }
+  tr.row-hidden .hide-btn { opacity: 1; }
+
+  /* inline social editor */
+  .social-editor { display: flex; flex-direction: column; gap: .75rem; max-width: 600px; }
+  .social-editor label { font-size: .78rem; font-weight: 500; color: var(--charcoal); display: block; margin-bottom: .2rem; }
+  .social-raw { font-size: .76rem; color: var(--mid); background: var(--warm); padding: .35rem .6rem; border-radius: 5px; font-family: monospace; }
+  .mode-btns { display: flex; gap: .45rem; flex-wrap: wrap; }
+  .mode-btn {
+    padding: .32rem .75rem; border-radius: 20px; font-size: .76rem; font-weight: 500;
+    cursor: pointer; border: 1.5px solid #C5B9AF; background: #fff; color: var(--mid); transition: all .14s;
+  }
+  .mode-btn:hover { border-color: var(--terracotta); color: var(--terracotta); }
+  .mode-btn.active { background: var(--charcoal); border-color: var(--charcoal); color: #fff; }
+  .social-fields { display: flex; flex-direction: column; gap: .5rem; }
+  .social-fields input {
+    background: #fff; border: 1.5px solid #C5B9AF; border-radius: 5px;
+    padding: .38rem .7rem; font-family: 'DM Sans', sans-serif; font-size: .81rem; outline: none;
+  }
+  .social-fields input:focus { border-color: var(--terracotta); }
+  .social-fields input::placeholder { color: #b0a098; }
+  .suggest { font-size: .72rem; color: var(--sky); font-style: italic; }
+
+  .suggest-hint { font-size: .72rem; color: var(--mid); }
+
+  @media (max-width: 700px) {
+    header { padding: 1.2rem; }
+    .setup { grid-template-columns: 1fr; padding: 0 1rem; }
+    .stats, .toolbar, .table-wrap { padding-left: 1rem; padding-right: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="header-tag">Admin Panel</div>
+    <h1>Directorio <em>Monteleva</em></h1>
+  </div>
+  <div class="header-actions">
+    <a href="index.html" class="btn btn-outline" style="text-decoration:none">← Ver directorio</a>
+    <button class="btn btn-export" id="exportBtn" disabled onclick="exportJson()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Descargar directory.json
+    </button>
+  </div>
+</header>
+
+<!-- SETUP CARDS -->
+<div class="setup">
+  <div class="setup-card">
+    <h2>1. Cargar CSV de Google Forms</h2>
+    <p>Descarga el CSV desde Google Forms o Google Sheets y súbelo aquí. Se auto-categorizan los contactos como punto de partida.</p>
+    <div class="drop-zone" id="dropZone"
+         onclick="document.getElementById('csvInput').click()"
+         ondragover="onDragOver(event)" ondragleave="onDragLeave()" ondrop="onDrop(event)">
+      <input type="file" id="csvInput" accept=".csv" onchange="handleCsvFile(this.files[0])">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+      <span>Arrastra el <strong>.csv</strong> aquí o <strong>haz clic</strong></span>
+    </div>
+    <div class="status-msg" id="csvStatus"></div>
+  </div>
+
+  <div class="setup-card">
+    <h2>2. Continuar donde nos quedamos <span style="font-size:.73rem;color:var(--mid);font-weight:400;">(opcional)</span></h2>
+    <p>Carga el <code>directory.json</code> del repo para preservar categorías y redes ya asignadas. Los contactos nuevos recibirán auto-sugerencias.</p>
+    <div class="json-btns">
+      <button class="btn btn-outline" id="loadJsonBtn" onclick="loadFromRepo()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Cargar desde repo
+      </button>
+      <span style="font-size:.73rem;color:var(--mid);">o</span>
+      <button class="btn btn-outline" onclick="document.getElementById('jsonInput').click()">Subir archivo</button>
+      <input type="file" id="jsonInput" accept=".json" style="display:none" onchange="handleJsonFile(this.files[0])">
+    </div>
+    <div class="status-msg" id="jsonStatus"></div>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats" id="statsBar" style="display:none">
+  <div class="stat-chip"><strong id="sTotal">0</strong>&nbsp;contactos</div>
+  <div class="stat-chip ok"><strong id="sCat">0</strong>&nbsp;categorizados</div>
+  <div class="stat-chip warn"><strong id="sOtros">0</strong>&nbsp;sin categoría</div>
+  <div class="stat-chip"><strong id="sNew">0</strong>&nbsp;nuevos del CSV</div>
+  <div class="stat-chip"><strong id="sManual">0</strong>&nbsp;del JSON previo</div>
+  <div class="stat-chip warn"><strong id="sHidden">0</strong>&nbsp;ocultos</div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="toolbar" id="toolbarSection" style="display:none">
+  <div class="tb-search">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="adminSearch" placeholder="Buscar nombre o servicio…" oninput="renderTable()">
+  </div>
+  <div class="pills" id="filterPills">
+    <button class="pill active" onclick="setFilter('todos',this)">Todos</button>
+    <button class="pill pill-warn" id="pillOtros" onclick="setFilter('otros-only',this)" style="display:none">⚠️ Sin categoría</button>
+    <button class="pill" onclick="setFilter('salud',this)">🩺 Salud</button>
+    <button class="pill" onclick="setFilter('legal',this)">⚖️ Legal</button>
+    <button class="pill" onclick="setFilter('construccion',this)">🏗️ Construcción</button>
+    <button class="pill" onclick="setFilter('tech',this)">💻 Tech</button>
+    <button class="pill" onclick="setFilter('food',this)">🥘 Comida</button>
+    <button class="pill" onclick="setFilter('belleza',this)">💅 Belleza</button>
+    <button class="pill" onclick="setFilter('educacion',this)">📚 Educación</button>
+    <button class="pill" onclick="setFilter('finanzas',this)">💰 Finanzas</button>
+    <button class="pill pill-warn" id="pillHidden" onclick="setFilter('hidden',this)" style="display:none">🙈 Ocultos</button>
+  </div>
+</div>
+
+<!-- TABLE -->
+<div class="table-wrap" id="tableSection" style="display:none">
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Servicio</th>
+        <th>Teléfono</th>
+        <th>Res.</th>
+        <th>Auto-cat.</th>
+        <th>Categoría final</th>
+        <th>Redes sociales</th>
+        <th>Estado</th>
+        <th>Desc.</th>
+        <th>Visible</th>
+      </tr>
+    </thead>
+    <tbody id="adminTbody"></tbody>
+  </table>
+</div>
+
+<script>
+// ── CATEGORY CONFIG ──
+const CATEGORY_RULES = [
+  { cat:'salud',        kw:['ginecólog','ginecolog','médic','dentist','fisioter','psicólog','psicolog','veterinar','cirugía','cirugia','obstetrici','rehabilitación','rehabilitacion','estético','estetico','nutriólog','nutri[oó]log','clínica','clinica','coach de ejercicio'] },
+  { cat:'legal',        kw:['abogad','notarí','notari','jurídic','juridic','laboral','mercantil','arrendamiento','derechos humanos','servicios jurídicos','servicios juridicos'] },
+  { cat:'construccion', kw:['arquitect','carpinter','closet','interioris','acero inoxidable','cocinas industrial','diseño interior','diseño de interiores','refrigeración','cocción'] },
+  { cat:'tech',         kw:['software','informátic','informatic','ciberseguridad','impresión 3d','impresion 3d','eléctric','electric','automatización','automatizacion','mecatrónic','mecatronic','ingeniería de datos','tecnología de la información','tecnologia de la informacion','hielo seco','criogén','criogen'] },
+  { cat:'food',         kw:['elotes','papas endiabladas','cafeter','refrescos','chilaquiles','chilquiles','arepas','tequeños','teque'] },
+  { cat:'belleza',      kw:['pestañas','pestaña','cejas','maquillaje','nails','manicure','lifting','laminado','henna','depilación','depilacion','piercings','marlea nails'] },
+  { cat:'educacion',    kw:['maestra.*apoyo','maestr.*apoyo','apoyo escolar','maestra de yoga','clases de golf','clases de apoyo','doctorado en educación','doctorado en educacion'] },
+  { cat:'finanzas',     kw:['contador','contable','inversiones','seguros','fiscal','contabilidad','property management','asesor.*seguro','asesor.*inversión','asesor.*inversion'] },
+];
+const CATEGORIES = ['salud','legal','construccion','tech','food','belleza','educacion','finanzas','otros'];
+const CAT_LABELS = { salud:'🩺 Salud', legal:'⚖️ Legal', construccion:'🏗️ Construcción', tech:'💻 Tech', food:'🥘 Comida', belleza:'💅 Belleza', educacion:'📚 Educación', finanzas:'💰 Finanzas', otros:'Otros' };
+
+function autoCategory(service) {
+  const s = service.toLowerCase();
+  for (const rule of CATEGORY_RULES) {
+    if (rule.kw.some(k => new RegExp(k, 'i').test(s))) return rule.cat;
+  }
+  return 'otros';
+}
+
+// ── SOCIAL DETECTION ──
+const NA_RE = /^(NA|N\/A|-+|—+|sin redes.*|no tengo.*|por ahora no.*|aún no.*|dept.*|no cuento.*)$/i;
+
+function detectSocial(raw) {
+  const val = (raw || '').split('\n')[0].trim();
+  if (!val || NA_RE.test(val)) return { mode: 'hide', display: '', url: '', hint: 'vacío/N/A', badgeClass: 'badge-hide' };
+
+  const igMatch = val.match(/instagram\.com\/([^?/\s&]+)/i);
+  const fbMatch = val.match(/facebook\.com\/([^?/\s&]+)/i);
+  const liMatch = val.match(/linkedin\.com\/in\/([^?/\s&]+)/i);
+  const atHandle = val.match(/^@([\w.]+)$/);
+  const isHttp  = /^https?:\/\//i.test(val);
+  const isWww   = /^www\./i.test(val);
+
+  if (igMatch)  return { mode: 'link', display: '@' + igMatch[1], url: 'https://instagram.com/' + igMatch[1], hint: 'Instagram detectado', badgeClass: 'badge-ig' };
+  if (fbMatch)  return { mode: 'link', display: '@' + fbMatch[1], url: 'https://facebook.com/' + fbMatch[1], hint: 'Facebook detectado', badgeClass: 'badge-fb' };
+  if (liMatch)  return { mode: 'link', display: liMatch[1], url: 'https://linkedin.com/in/' + liMatch[1], hint: 'LinkedIn detectado', badgeClass: 'badge-li' };
+  if (atHandle) return { mode: 'link', display: val, url: 'https://instagram.com/' + atHandle[1], hint: 'Asumido Instagram', badgeClass: 'badge-ig' };
+
+  if (isHttp || isWww) {
+    try {
+      const url = val.startsWith('http') ? val : 'https://' + val;
+      const host = new URL(url).hostname.replace(/^www\./, '');
+      return { mode: 'link', display: host, url, hint: 'URL detectada', badgeClass: 'badge-url' };
+    } catch {}
+  }
+
+  // Unknown text — suggest Google search or text
+  return { mode: 'text', display: val, url: '', hint: 'No reconocido', badgeClass: 'badge-unknown' };
+}
+
+function socialGoogleUrl(raw) {
+  return 'https://www.google.com/search?q=' + encodeURIComponent(raw);
+}
+
+// ── CSV PARSER ──
+function parseCsv(text) {
+  const rows = [];
+  let row = [], field = '', inQ = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (inQ) {
+      if (c === '"' && text[i+1] === '"') { field += '"'; i++; }
+      else if (c === '"') { inQ = false; }
+      else { field += c; }
+    } else {
+      if (c === '"') { inQ = true; }
+      else if (c === ',') { row.push(field); field = ''; }
+      else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+      else if (c !== '\r') { field += c; }
+    }
+  }
+  if (field || row.length) { row.push(field); rows.push(row); }
+  return rows;
+}
+
+// Columns: [0]Timestamp [1]Nombre [2]Servicio [3]EnMonteleva [4]Residente [5]Teléfono [6]Redes [7]Descuento
+function mapCsvRow(row) {
+  if (row.length < 6) return null;
+  const name    = row[1].trim();
+  const service = row[2].trim();
+  if (!name || !service || service === '-') return null;
+  const resident = ['Sí','Si','Propietario residente'].includes(row[4].trim());
+  const phone    = (row[5] || '').trim();
+  const socialRaw = (row[6] || '').trim();
+  const discount = (row[7] || '').trim() === 'Sí';
+  const detected = detectSocial(socialRaw);
+  const suggestedCat = autoCategory(service);
+  return {
+    name, service, resident, phone, discount,
+    hidden: false,
+    socialRaw,
+    socialMode: detected.mode,         // hide | link | text | google
+    socialDisplay: detected.display,   // what to show
+    socialUrl: detected.url,           // href (empty for text/hide/google)
+    socialHint: detected.hint,
+    socialHintClass: detected.badgeClass,
+    suggestedCat,
+    cat: suggestedCat,
+    source: 'auto'
+  };
+}
+
+function entryKey(e) {
+  return ((e.name || '') + '|' + (e.phone || '')).toLowerCase().trim();
+}
+
+// ── STATE ──
+let entries = [];
+let jsonBase = {};   // keyed by entryKey, from existing directory.json
+let activeFilter = 'todos';
+let openEditorIdx = null;  // index of row with open social editor
+
+// ── DRAG & DROP ──
+function onDragOver(e) { e.preventDefault(); document.getElementById('dropZone').classList.add('dragover'); }
+function onDragLeave()  { document.getElementById('dropZone').classList.remove('dragover'); }
+function onDrop(e) { e.preventDefault(); document.getElementById('dropZone').classList.remove('dragover'); const f = e.dataTransfer.files[0]; if (f) handleCsvFile(f); }
+
+function handleCsvFile(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => processCsv(ev.target.result, file.name);
+  reader.readAsText(file, 'UTF-8');
+}
+
+function processCsv(text, filename) {
+  const seen = new Set();
+  const result = [];
+  for (const row of parseCsv(text).slice(1)) {
+    const e = mapCsvRow(row);
+    if (!e) continue;
+    const dedupKey = e.name + '|' + e.phone + '|' + e.service;
+    if (seen.has(dedupKey)) continue;
+    seen.add(dedupKey);
+    // Merge from existing JSON base
+    const k = entryKey(e);
+    if (jsonBase[k]) {
+      e.cat = jsonBase[k].cat;
+      e.hidden        = jsonBase[k].hidden        ?? false;
+      e.socialMode    = jsonBase[k].socialMode    ?? e.socialMode;
+      e.socialDisplay = jsonBase[k].socialDisplay ?? e.socialDisplay;
+      e.socialUrl     = jsonBase[k].socialUrl     ?? e.socialUrl;
+      e.source = 'manual';
+    } else {
+      e.source = 'new';
+    }
+    result.push(e);
+  }
+  entries = result;
+  const s = document.getElementById('csvStatus');
+  s.textContent = `✓ ${entries.length} contactos cargados desde "${filename}"`;
+  s.className = 'status-msg status-ok show';
+  showTable();
+}
+
+// ── LOAD EXISTING JSON ──
+function loadFromRepo() {
+  const btn = document.getElementById('loadJsonBtn');
+  btn.disabled = true; btn.textContent = 'Cargando…';
+  fetch('directory.json?_=' + Date.now())
+    .then(r => { if (!r.ok) throw new Error('not found'); return r.json(); })
+    .then(data => applyJson(data, 'directory.json'))
+    .catch(() => {
+      const s = document.getElementById('jsonStatus');
+      s.textContent = '⚠️ No se encontró directory.json en el repo (normal la primera vez)';
+      s.className = 'status-msg status-warn show';
+    })
+    .finally(() => {
+      btn.disabled = false;
+      btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Cargar desde repo';
+    });
+}
+
+function handleJsonFile(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try { applyJson(JSON.parse(ev.target.result), file.name); }
+    catch { const s=document.getElementById('jsonStatus'); s.textContent='⚠️ JSON inválido'; s.className='status-msg status-warn show'; }
+  };
+  reader.readAsText(file);
+}
+
+function applyJson(data, filename) {
+  if (!Array.isArray(data)) data = [];
+  jsonBase = {};
+  for (const e of data) jsonBase[entryKey(e)] = e;
+  // Re-apply to already-loaded entries
+  for (const e of entries) {
+    const k = entryKey(e);
+    if (jsonBase[k]) {
+      e.cat = jsonBase[k].cat;
+      e.hidden        = jsonBase[k].hidden        ?? false;
+      e.socialMode    = jsonBase[k].socialMode    ?? e.socialMode;
+      e.socialDisplay = jsonBase[k].socialDisplay ?? e.socialDisplay;
+      e.socialUrl     = jsonBase[k].socialUrl     ?? e.socialUrl;
+      e.source = 'manual';
+    }
+  }
+  const s = document.getElementById('jsonStatus');
+  s.textContent = `✓ ${data.length} registros previos cargados desde "${filename}"`;
+  s.className = 'status-msg status-ok show';
+  if (entries.length > 0) { updateStats(); renderTable(); }
+}
+
+// ── SHOW TABLE ──
+function showTable() {
+  ['statsBar','toolbarSection','tableSection'].forEach(id => document.getElementById(id).style.display = id === 'statsBar' ? 'flex' : 'block');
+  document.getElementById('exportBtn').disabled = false;
+  refreshDynamicPills();
+  updateStats();
+  renderTable();
+}
+
+function refreshDynamicPills() {
+  document.getElementById('pillOtros').style.display  = entries.some(e => e.cat === 'otros') ? '' : 'none';
+  document.getElementById('pillHidden').style.display = entries.some(e => e.hidden) ? '' : 'none';
+}
+
+function updateStats() {
+  const otros   = entries.filter(e => e.cat === 'otros').length;
+  const hidden  = entries.filter(e => e.hidden).length;
+  document.getElementById('sTotal').textContent  = entries.length;
+  document.getElementById('sCat').textContent    = entries.length - otros;
+  document.getElementById('sOtros').textContent  = otros;
+  document.getElementById('sNew').textContent    = entries.filter(e => e.source === 'new').length;
+  document.getElementById('sManual').textContent = entries.filter(e => e.source === 'manual').length;
+  document.getElementById('sHidden').textContent = hidden;
+  refreshDynamicPills();
+}
+
+// ── FILTER ──
+function setFilter(cat, btn) {
+  activeFilter = cat;
+  document.querySelectorAll('#filterPills .pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  openEditorIdx = null;
+  renderTable();
+}
+
+// ── RENDER TABLE ──
+function renderTable() {
+  const q = document.getElementById('adminSearch').value.toLowerCase();
+  const tbody = document.getElementById('adminTbody');
+
+  let filtered = entries.filter(e => {
+    if (activeFilter === 'otros-only') return e.cat === 'otros';
+    if (activeFilter === 'hidden')     return e.hidden;
+    if (activeFilter !== 'todos') return e.cat === activeFilter && !e.hidden;
+    return !e.hidden;   // 'todos' excludes hidden by default
+  });
+  if (q) filtered = filtered.filter(e => e.name.toLowerCase().includes(q) || e.service.toLowerCase().includes(q));
+  filtered.sort((a, b) => {
+    if (a.cat === 'otros' && b.cat !== 'otros') return -1;
+    if (a.cat !== 'otros' && b.cat === 'otros') return 1;
+    return a.name.localeCompare(b.name, 'es');
+  });
+
+  if (!filtered.length) {
+    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2.5rem;color:var(--mid);">Sin resultados para ese filtro</td></tr>`;
+    return;
+  }
+
+  const rows = [];
+  for (const e of filtered) {
+    const gi = entries.indexOf(e);
+    const isOtros = e.cat === 'otros';
+
+    const catOptions = CATEGORIES.map(c =>
+      `<option value="${c}" ${e.cat === c ? 'selected' : ''}>${CAT_LABELS[c]}</option>`
+    ).join('');
+
+    const autoLabel = e.suggestedCat !== e.cat
+      ? `<span style="font-size:.72rem;color:var(--mid);font-style:italic;">${CAT_LABELS[e.suggestedCat]||e.suggestedCat}</span>`
+      : `<span style="font-size:.72rem;color:#b0a098;">—</span>`;
+
+    const srcBadge = e.source === 'manual'
+      ? `<span class="badge badge-manual">Manual</span>`
+      : e.source === 'new'
+      ? `<span class="badge badge-new">Nuevo</span>`
+      : `<span class="badge badge-auto">Auto</span>`;
+
+    // Social cell
+    const socialModeLabel = { hide:'Oculto', link:'Link', text:'Texto', google:'Google' };
+    const socialBadgeClass = e.socialMode === 'hide' ? 'badge-hide' : e.socialMode === 'link' ? (e.socialHintClass||'badge-url') : e.socialMode === 'google' ? 'badge-google' : 'badge-text';
+    const socialPreview = e.socialMode === 'hide' ? '—' : (e.socialDisplay || e.socialRaw || '—');
+    const isEditorOpen = openEditorIdx === gi;
+
+    rows.push(`<tr class="${isOtros ? 'row-otros' : ''}${e.hidden ? ' row-hidden' : ''}" data-gi="${gi}">
+      <td class="td-name">${escHtml(e.name)}</td>
+      <td class="td-svc" title="${escHtml(e.service)}">${escHtml(e.service.length>55 ? e.service.slice(0,55)+'…' : e.service)}</td>
+      <td class="td-phone">${escHtml(e.phone||'—')}</td>
+      <td style="text-align:center">${e.resident ? '🏠' : '—'}</td>
+      <td>${autoLabel}</td>
+      <td><select class="cat-sel" onchange="updateCat(${gi},this.value)">${catOptions}</select></td>
+      <td>
+        <div class="social-cell">
+          <span class="badge ${socialBadgeClass}">${socialModeLabel[e.socialMode]||'?'}</span>
+          <span class="social-preview" title="${escHtml(e.socialRaw||'')}">${escHtml(socialPreview)}</span>
+          <button class="edit-social-btn" onclick="toggleSocialEditor(${gi})">${isEditorOpen ? '✕ cerrar' : '✏️ editar'}</button>
+        </div>
+      </td>
+      <td>${srcBadge}</td>
+      <td style="text-align:center">${e.discount ? '🏷' : '—'}</td>
+      <td style="text-align:center">
+        <button class="hide-btn ${e.hidden ? 'hidden-active' : ''}" onclick="toggleHidden(${gi})" title="${e.hidden ? 'Mostrar en directorio' : 'Ocultar del directorio'}">
+          ${e.hidden ? '🙈 Oculto' : '👁 Visible'}
+        </button>
+      </td>
+    </tr>`);
+
+    if (isEditorOpen) {
+      rows.push(buildSocialEditorRow(e, gi));
+    }
+  }
+  tbody.innerHTML = rows.join('');
+}
+
+function buildSocialEditorRow(e, gi) {
+  const modes = [
+    { val:'hide',   label:'🚫 Ocultar' },
+    { val:'link',   label:'🔗 Link' },
+    { val:'text',   label:'📝 Texto' },
+    { val:'google', label:'🔍 Buscar en Google' },
+  ];
+  const modeBtns = modes.map(m =>
+    `<button class="mode-btn ${e.socialMode===m.val?'active':''}" onclick="setSocialMode(${gi},'${m.val}')">${m.label}</button>`
+  ).join('');
+
+  const fieldsHtml = e.socialMode === 'hide' ? '' :
+    e.socialMode === 'link' ? `
+      <div class="social-fields">
+        <label>URL del enlace</label>
+        <input type="url" placeholder="https://…" value="${escHtml(e.socialUrl||'')}" oninput="updateSocialUrl(${gi},this.value)">
+        <label>Texto a mostrar</label>
+        <input type="text" placeholder="@handle o nombre" value="${escHtml(e.socialDisplay||'')}" oninput="updateSocialDisplay(${gi},this.value)">
+      </div>` :
+    e.socialMode === 'text' ? `
+      <div class="social-fields">
+        <label>Texto a mostrar</label>
+        <input type="text" placeholder="texto" value="${escHtml(e.socialDisplay||'')}" oninput="updateSocialDisplay(${gi},this.value)">
+      </div>` :
+    e.socialMode === 'google' ? `
+      <div class="social-fields">
+        <label>Término de búsqueda</label>
+        <input type="text" placeholder="término" value="${escHtml(e.socialDisplay||e.socialRaw||'')}" oninput="updateSocialDisplay(${gi},this.value)">
+        <span class="suggest-hint">Se generará un link a Google Search con ese término.</span>
+      </div>` : '';
+
+  return `<tr class="row-editor">
+    <td colspan="10">
+      <div class="social-editor">
+        <div>
+          <label>Valor original del CSV</label>
+          <div class="social-raw">${escHtml(e.socialRaw||'(vacío)')}</div>
+          ${e.socialHint ? `<span class="suggest">${e.socialHint}</span>` : ''}
+        </div>
+        <div>
+          <label>Modo de visualización</label>
+          <div class="mode-btns">${modeBtns}</div>
+        </div>
+        ${fieldsHtml}
+      </div>
+    </td>
+  </tr>`;
+}
+
+// ── UPDATE HANDLERS ──
+function updateCat(gi, val) {
+  entries[gi].cat = val;
+  entries[gi].source = 'manual';
+  updateStats();
+  document.getElementById('pillOtros').style.display = entries.some(e => e.cat === 'otros') ? '' : 'none';
+}
+
+function toggleSocialEditor(gi) {
+  openEditorIdx = openEditorIdx === gi ? null : gi;
+  renderTable();
+}
+
+function setSocialMode(gi, mode) {
+  const e = entries[gi];
+  e.socialMode = mode;
+  if (mode === 'google') {
+    e.socialDisplay = e.socialRaw || '';
+    e.socialUrl = '';
+  } else if (mode === 'hide') {
+    e.socialDisplay = '';
+    e.socialUrl = '';
+  } else if (mode === 'text' && !e.socialDisplay) {
+    e.socialDisplay = e.socialRaw || '';
+  }
+  renderTable();
+}
+
+function updateSocialUrl(gi, val)     { entries[gi].socialUrl = val; }
+function updateSocialDisplay(gi, val) { entries[gi].socialDisplay = val; }
+
+function toggleHidden(gi) {
+  entries[gi].hidden = !entries[gi].hidden;
+  updateStats();
+  renderTable();
+}
+
+// ── EXPORT ──
+function exportJson() {
+  const out = entries.map(e => {
+    let finalUrl = e.socialUrl || '';
+    if (e.socialMode === 'google' && e.socialDisplay) {
+      finalUrl = 'https://www.google.com/search?q=' + encodeURIComponent(e.socialDisplay);
+    }
+    return {
+      name: e.name, service: e.service, resident: e.resident,
+      phone: e.phone, discount: e.discount, cat: e.cat,
+      hidden: e.hidden || false,
+      socialMode: e.socialMode,
+      socialDisplay: e.socialMode === 'hide' ? '' : (e.socialDisplay || ''),
+      socialUrl: e.socialMode === 'hide' ? '' : finalUrl
+    };
+  });
+  const blob = new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' });
+  const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: 'directory.json' });
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>
