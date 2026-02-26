@@ -398,10 +398,14 @@ function mapCsvRow(row) {
 function entryKey(e) {
   return ((e.name || '') + '|' + (e.phone || '')).toLowerCase().trim();
 }
+function entryKeyName(e) {
+  return (e.name || '').toLowerCase().trim();
+}
 
 // ── STATE ──
 let entries = [];
-let jsonBase = {};   // keyed by entryKey, from existing directory.json
+let jsonBase = {};      // keyed by name|phone
+let jsonBaseByName = {}; // keyed by name only (fallback)
 let activeFilter = 'todos';
 let openEditorIdx = null;  // index of row with open social editor
 
@@ -426,14 +430,14 @@ function processCsv(text, filename) {
     const dedupKey = e.name + '|' + e.phone + '|' + e.service;
     if (seen.has(dedupKey)) continue;
     seen.add(dedupKey);
-    // Merge from existing JSON base
-    const k = entryKey(e);
-    if (jsonBase[k]) {
-      e.cat = jsonBase[k].cat;
-      e.hidden        = jsonBase[k].hidden        ?? false;
-      e.socialMode    = jsonBase[k].socialMode    ?? e.socialMode;
-      e.socialDisplay = jsonBase[k].socialDisplay ?? e.socialDisplay;
-      e.socialUrl     = jsonBase[k].socialUrl     ?? e.socialUrl;
+    // Merge from existing JSON base (try name|phone first, fall back to name only)
+    const prev = jsonBase[entryKey(e)] || jsonBaseByName[entryKeyName(e)];
+    if (prev) {
+      e.cat           = prev.cat;
+      e.hidden        = prev.hidden        ?? false;
+      e.socialMode    = prev.socialMode    ?? e.socialMode;
+      e.socialDisplay = prev.socialDisplay ?? e.socialDisplay;
+      e.socialUrl     = prev.socialUrl     ?? e.socialUrl;
       e.source = 'manual';
     } else {
       e.source = 'new';
@@ -478,16 +482,20 @@ function handleJsonFile(file) {
 function applyJson(data, filename) {
   if (!Array.isArray(data)) data = [];
   jsonBase = {};
-  for (const e of data) jsonBase[entryKey(e)] = e;
+  jsonBaseByName = {};
+  for (const e of data) {
+    jsonBase[entryKey(e)] = e;
+    jsonBaseByName[entryKeyName(e)] = e;
+  }
   // Re-apply to already-loaded entries
   for (const e of entries) {
-    const k = entryKey(e);
-    if (jsonBase[k]) {
-      e.cat = jsonBase[k].cat;
-      e.hidden        = jsonBase[k].hidden        ?? false;
-      e.socialMode    = jsonBase[k].socialMode    ?? e.socialMode;
-      e.socialDisplay = jsonBase[k].socialDisplay ?? e.socialDisplay;
-      e.socialUrl     = jsonBase[k].socialUrl     ?? e.socialUrl;
+    const prev = jsonBase[entryKey(e)] || jsonBaseByName[entryKeyName(e)];
+    if (prev) {
+      e.cat           = prev.cat;
+      e.hidden        = prev.hidden        ?? false;
+      e.socialMode    = prev.socialMode    ?? e.socialMode;
+      e.socialDisplay = prev.socialDisplay ?? e.socialDisplay;
+      e.socialUrl     = prev.socialUrl     ?? e.socialUrl;
       e.source = 'manual';
     }
   }
