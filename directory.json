@@ -222,16 +222,16 @@
   },
   {
     "name": "Alondra Gómez",
-    "service": "Caféteria",
+    "service": "Venta de café, lattes, capuchinos, cold brew, americano, chocolate, etc. Con grano de especialidad.",
     "resident": true,
     "phone": "8671191745",
-    "discount": false,
+    "discount": true,
     "cat": "food",
     "hidden": false,
     "socialMode": "hide",
     "socialDisplay": "",
     "socialUrl": "",
-    "id": "alondra gómez||caféteria||8671191745"
+    "id": "alondra gómez||venta de café, lattes, capuchinos, cold brew, americano, chocolate, etc. con grano de especialidad.||8671191745"
   },
   {
     "name": "Oscar Hernandez",
@@ -1041,7 +1041,7 @@
   },
   {
     "name": "Bryan Christopher Delgadillo Arias",
-    "service": "Dirección de proyectos estratégicos para mejora de procesos y reducción en costos de operación con análisis avanzado de datos",
+    "service": "Lean Six Sigma Black Belt: dirección de proyectos estratégicos para mejora de procesos y reducción en costos de operación con análisis avanzado de datos",
     "resident": true,
     "phone": "4442223447",
     "discount": true,
@@ -1050,7 +1050,20 @@
     "socialMode": "hide",
     "socialDisplay": "",
     "socialUrl": "",
-    "id": "bryan christopher delgadillo arias||dirección de proyectos estratégicos para mejora de procesos y reducción en costos de operación con análisis avanzado de datos||4442223447"
+    "id": "bryan christopher delgadillo arias||lean six sigma black belt: dirección de proyectos estratégicos para mejora de procesos y reducción en costos de operación con análisis avanzado de datos||4442223447"
+  },
+  {
+    "name": "Bryan Christopher Delgadillo Arias",
+    "service": "Consultoría en Sistemas: coordinación para análisis, diseño e implementación de soluciones en tecnologías de la información",
+    "resident": true,
+    "phone": "4442223447",
+    "discount": true,
+    "cat": "tech",
+    "hidden": false,
+    "socialMode": "hide",
+    "socialDisplay": "",
+    "socialUrl": "",
+    "id": "bryan christopher delgadillo arias||consultoría en sistemas: coordinación para análisis, diseño e implementación de soluciones en tecnologías de la información||4442223447"
   },
   {
     "name": "Alan Gonzalez",
@@ -1129,5 +1142,109 @@
     "socialDisplay": "@jumpyland",
     "socialUrl": "https://instagram.com/jumpyland",
     "id": "rocío cano||renta de inflables brincolines, mesas y sillitas infantiles para eventos||8341446850"
+  },
+  {
+    "name": "Max Soldevilla",
+    "service": "Arquitecto: análisis de proyectos de inversión, diseño de proyectos multifamiliares, comerciales, oficinas, naves industriales",
+    "resident": true,
+    "phone": "8116860713",
+    "discount": false,
+    "cat": "construccion",
+    "hidden": false,
+    "socialMode": "link",
+    "socialDisplay": "@soldevilla.arch",
+    "socialUrl": "https://instagram.com/soldevilla.arch",
+    "id": "max soldevilla||arquitecto: análisis de proyectos de inversión, diseño de proyectos multifamiliares, comerciales, oficinas, naves industriales||8116860713"
+  },
+  {
+    "name": "Melody Sandoval Perez",
+    "service": "Elotes y Tostitos",
+    "resident": true,
+    "phone": "8123945092",
+    "discount": true,
+    "cat": "food",
+    "hidden": false,
+    "socialMode": "hide",
+    "socialDisplay": "",
+    "socialUrl": "",
+    "id": "melody sandoval perez||elotes y tostitos||8123945092"
+  },
+  {
+    "name": "Dra. Melody Sandoval Perez",
+    "service": "Odontóloga - Endodoncista",
+    "resident": true,
+    "phone": "8123945092",
+    "discount": false,
+    "cat": "salud",
+    "hidden": false,
+    "socialMode": "hide",
+    "socialDisplay": "",
+    "socialUrl": "",
+    "id": "dra. melody sandoval perez||odontóloga - endodoncista||8123945092"
+  },
+  {
+    "name": "Sergio Torres",
+    "service": "Consultoría en trámites, estudios e ingenierías. Proyectos de inversión y personales.",
+    "resident": false,
+    "phone": "8181876366",
+    "discount": true,
+    "cat": "construccion",
+    "hidden": false,
+    "socialMode": "hide",
+    "socialDisplay": "",
+    "socialUrl": "",
+    "id": "sergio torres||consultoría en trámites, estudios e ingenierías. proyectos de inversión y personales.||8181876366"
+  },
+  {
+    "name": "Karla Andrade",
+    "service": "Abogada especializada en Derecho Laboral",
+    "resident": true,
+    "phone": "8184768473",
+    "discount": false,
+    "cat": "legal",
+    "hidden": false,
+    "socialMode": "hide",
+    "socialDisplay": "",
+    "socialUrl": "",
+    "id": "karla andrade||abogada especializada en derecho laboral||8184768473"
+  },
+  {
+    "name": "Linda Hdz",
+    "service": "Seguros de auto, vida, hogar, créditos de auto nuevos o usados, créditos hipotecarios",
+    "resident": true,
+    "phone": "8116916006",
+    "discount": true,
+    "cat": "finanzas",
+    "hidden": false,
+    "socialMode": "hide",
+    "socialDisplay": "",
+    "socialUrl": "",
+    "id": "linda hdz||seguros de auto, vida, hogar, créditos de auto nuevos o usados, créditos hipotecarios||8116916006"
+  },
+  {
+    "name": "Roberto Valderrama Treviño",
+    "service": "Psicólogo clínico; terapia niños, adolescentes y adultos e intervención en crisis",
+    "resident": false,
+    "phone": "8119930997",
+    "discount": false,
+    "cat": "salud",
+    "hidden": false,
+    "socialMode": "link",
+    "socialDisplay": "@psic.robertovalderrama",
+    "socialUrl": "https://instagram.com/psic.robertovalderrama",
+    "id": "roberto valderrama treviño||psicólogo clínico; terapia niños, adolescentes y adultos e intervención en crisis||8119930997"
+  },
+  {
+    "name": "Milldred Karina Castellanos Campos",
+    "service": "Ginecología y Obstetricia",
+    "resident": true,
+    "phone": "8119749945",
+    "discount": true,
+    "cat": "salud",
+    "hidden": false,
+    "socialMode": "link",
+    "socialDisplay": "@dramilldred.gineco",
+    "socialUrl": "https://instagram.com/dramilldred.gineco",
+    "id": "milldred karina castellanos campos||ginecología y obstetricia||8119749945"
   }
 ]
