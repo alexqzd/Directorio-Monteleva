@@ -861,7 +861,10 @@
     "name": "Karen Segoviano",
     "service": "Consultoria de Software (Apps y sitios web a la medida)",
     "resident": true,
-    "phone": ["8113710917", "8123726679"],
+    "phone": [
+      "8113710917",
+      "8123726679"
+    ],
     "discount": true,
     "cat": "tech",
     "hidden": false,
@@ -1017,7 +1020,10 @@
     "name": "Moni Peña",
     "service": "Productos oaxaqueños. Mezcal, chocolate, mole, quesos.",
     "resident": true,
-    "phone": ["9721091018", "2227332802"],
+    "phone": [
+      "9721091018",
+      "2227332802"
+    ],
     "discount": true,
     "cat": "food",
     "hidden": false,
@@ -1233,5 +1239,86 @@
     "socialDisplay": "@dramilldred.gineco",
     "socialUrl": "https://instagram.com/dramilldred.gineco",
     "id": "milldred karina castellanos campos||ginecología y obstetricia||8119749945"
+  },
+  {
+    "name": "Edgar Ian Vargas Cruz",
+    "service": "Postproducción de video (edición & motion graphics) e ingeniería de audio",
+    "resident": true,
+    "phone": "8111630090",
+    "discount": true,
+    "cat": "tech",
+    "hidden": false,
+    "socialMode": "hide",
+    "socialDisplay": "",
+    "socialUrl": "",
+    "id": "edgar ian vargas cruz||postproducción de video (edición & motion graphics) e ingeniería de audio||8111630090"
+  },
+  {
+    "name": "Patricia Garza",
+    "service": "Artículos de decoración",
+    "resident": true,
+    "phone": "8186533984",
+    "discount": true,
+    "cat": "otros",
+    "hidden": false,
+    "socialMode": "hide",
+    "socialDisplay": "",
+    "socialUrl": "",
+    "id": "patricia garza||artículos de decoración||8186533984"
+  },
+  {
+    "name": "Alan Martínez",
+    "service": "Marketing digital, creación de páginas web y e-commerce",
+    "resident": true,
+    "phone": "8113005518",
+    "discount": true,
+    "cat": "tech",
+    "hidden": false,
+    "socialMode": "hide",
+    "socialDisplay": "",
+    "socialUrl": "",
+    "id": "alan martínez||marketing digital, creación de páginas web y e-commerce||8113005518"
+  },
+  {
+    "name": "Braulio Gutiérrez Treviño",
+    "service": "Aire acondicionado: mantenimiento, venta e ingeniería",
+    "resident": true,
+    "phone": "8180139387",
+    "discount": true,
+    "cat": "construccion",
+    "hidden": false,
+    "socialMode": "hide",
+    "socialDisplay": "",
+    "socialUrl": "",
+    "id": "braulio gutiérrez treviño||aire acondicionado: mantenimiento, venta e ingeniería||8180139387"
+  },
+  {
+    "name": "Alma Dalia Neri Castillo",
+    "service": "Licenciada en Enfermería",
+    "resident": true,
+    "phone": "8131241543",
+    "discount": true,
+    "cat": "salud",
+    "hidden": false,
+    "socialMode": "hide",
+    "socialDisplay": "",
+    "socialUrl": "",
+    "id": "alma dalia neri castillo||licenciada en enfermería||8131241543"
+  },
+  {
+    "name": "Ilana Madriz",
+    "service": "Estilista y tatuadora",
+    "resident": true,
+    "phone": [
+      "5528454481",
+      "8140078872"
+    ],
+    "discount": true,
+    "cat": "belleza",
+    "hidden": false,
+    "socialMode": "link",
+    "socialDisplay": "@nana_nannita",
+    "socialUrl": "https://instagram.com/nana_nannita",
+    "id": "ilana madriz||estilista y tatuadora||5528454481 o 8140078872"
   }
 ]
