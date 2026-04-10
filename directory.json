@@ -579,9 +579,9 @@
     "discount": true,
     "cat": "salud",
     "hidden": false,
-    "socialMode": "hide",
-    "socialDisplay": "",
-    "socialUrl": "",
+    "socialMode": "link",
+    "socialDisplay": "@armandosegurosrmz",
+    "socialUrl": "https://instagram.com/armandosegurosrmz",
     "id": "armando rmz||agente de seguros gastos médicos planes de retiro (ppr) seguros auto seguros casa o departamento seguros educacionales seguro vida mujer seguros de vida||8123218560"
   },
   {
@@ -1183,9 +1183,9 @@
     "discount": true,
     "cat": "construccion",
     "hidden": false,
-    "socialMode": "hide",
-    "socialDisplay": "",
-    "socialUrl": "",
+    "socialMode": "link",
+    "socialDisplay": "sergio@arcoservicios.com",
+    "socialUrl": "mailto:sergio@arcoservicios.com",
     "id": "sergio torres||consultoría en trámites, estudios e ingenierías. proyectos de inversión y personales.||8181876366"
   },
   {
@@ -1196,9 +1196,9 @@
     "discount": false,
     "cat": "legal",
     "hidden": false,
-    "socialMode": "hide",
-    "socialDisplay": "",
-    "socialUrl": "",
+    "socialMode": "link",
+    "socialDisplay": "karla@cincopuntotres.com",
+    "socialUrl": "mailto:karla@cincopuntotres.com",
     "id": "karla andrade||abogada especializada en derecho laboral||8184768473"
   },
   {
