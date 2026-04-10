@@ -1,0 +1,16 @@
+[
+  {
+    "action": "remove",
+    "name": "Melody Sandoval Perez",
+    "service": "Elotes y Tostitos",
+    "reason": "Se dio de baja del directorio",
+    "date": "2026-03-19"
+  },
+  {
+    "action": "merge",
+    "names": ["Ilana", "Ilana Madriz"],
+    "into": "Ilana Madriz",
+    "reason": "Misma persona, llenó el formulario dos veces con teléfonos distintos",
+    "date": "2026-04-09"
+  }
+]
