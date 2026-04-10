@@ -1216,16 +1216,16 @@
   },
   {
     "name": "Roberto Valderrama Treviño",
-    "service": "Psicólogo clínico; terapia niños, adolescentes y adultos e intervención en crisis",
+    "service": "Psicólogo: psicoterapia con orientación psicoanalítica, diplomado en depresión y ansiedad, tanatología y psicooncología; atención a niños, adolescentes y adultos",
     "resident": false,
     "phone": "8119930997",
-    "discount": false,
+    "discount": true,
     "cat": "salud",
     "hidden": false,
     "socialMode": "link",
     "socialDisplay": "@psic.robertovalderrama",
     "socialUrl": "https://instagram.com/psic.robertovalderrama",
-    "id": "roberto valderrama treviño||psicólogo clínico; terapia niños, adolescentes y adultos e intervención en crisis||8119930997"
+    "id": "roberto valderrama treviño||psicólogo: psicoterapia con orientación psicoanalítica, diplomado en depresión y ansiedad, tanatología y psicooncología; atención a niños, adolescentes y adultos||8119930997"
   },
   {
     "name": "Milldred Karina Castellanos Campos",
