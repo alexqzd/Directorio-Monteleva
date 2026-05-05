@@ -16,9 +16,27 @@
   {
     "action": "override",
     "name": "Bryan Christopher Delgadillo Arias",
+    "service": "Productor Musical Ejecutivo",
     "field": "discount",
     "value": false,
-    "applies_to": "all",
+    "reason": "Ajustó sus precios, el descuento ya no aplica. Solicitado por Bryan vía WhatsApp el 2026-05-04.",
+    "date": "2026-05-04"
+  },
+  {
+    "action": "override",
+    "name": "Bryan Christopher Delgadillo Arias",
+    "service": "Lean Six Sigma Black Belt",
+    "field": "discount",
+    "value": false,
+    "reason": "Ajustó sus precios, el descuento ya no aplica. Solicitado por Bryan vía WhatsApp el 2026-05-04.",
+    "date": "2026-05-04"
+  },
+  {
+    "action": "override",
+    "name": "Bryan Christopher Delgadillo Arias",
+    "service": "Consultoría en Sistemas",
+    "field": "discount",
+    "value": false,
     "reason": "Ajustó sus precios, el descuento ya no aplica. Solicitado por Bryan vía WhatsApp el 2026-05-04.",
     "date": "2026-05-04"
   }
