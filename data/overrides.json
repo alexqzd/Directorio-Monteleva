@@ -12,5 +12,14 @@
     "into": "Ilana Madriz",
     "reason": "Misma persona, llenó el formulario dos veces con teléfonos distintos",
     "date": "2026-04-09"
+  },
+  {
+    "action": "override",
+    "name": "Bryan Christopher Delgadillo Arias",
+    "field": "discount",
+    "value": false,
+    "applies_to": "all",
+    "reason": "Ajustó sus precios, el descuento ya no aplica. Solicitado por Bryan vía WhatsApp el 2026-05-04.",
+    "date": "2026-05-04"
   }
 ]
