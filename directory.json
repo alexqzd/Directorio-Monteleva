@@ -1320,5 +1320,83 @@
     "socialDisplay": "@nana_nannita",
     "socialUrl": "https://instagram.com/nana_nannita",
     "id": "ilana madriz||estilista y tatuadora||5528454481 o 8140078872"
+  },
+  {
+    "name": "Claudia Valdés",
+    "service": "Impresiones personalizadas: playeras, stickers, kits de cruda, tatuajes temporales, hoodies, etc.",
+    "resident": true,
+    "phone": "3312296475",
+    "discount": true,
+    "cat": "otros",
+    "hidden": false,
+    "socialMode": "link",
+    "socialDisplay": "@shopreplay_",
+    "socialUrl": "https://instagram.com/shopreplay_",
+    "id": "claudia valdés||impresiones personalizadas: playeras, stickers, kits de cruda, tatuajes temporales, hoodies, etc.||3312296475"
+  },
+  {
+    "name": "Stephanie Salazar López",
+    "service": "Diseñadora UI/UX & Gráfica",
+    "resident": true,
+    "phone": "8115880678",
+    "discount": false,
+    "cat": "tech",
+    "hidden": false,
+    "socialMode": "link",
+    "socialDisplay": "salazar-design-studio.webflow.io",
+    "socialUrl": "https://salazar-design-studio.webflow.io/mx",
+    "id": "stephanie salazar lópez||diseñadora ui/ux & gráfica||8115880678"
+  },
+  {
+    "name": "Stephanie Salazar",
+    "service": "Muñecos tejidos a crochet personalizados",
+    "resident": true,
+    "phone": "8115880678",
+    "discount": false,
+    "cat": "otros",
+    "hidden": false,
+    "socialMode": "link",
+    "socialDisplay": "@le_fets_crochet",
+    "socialUrl": "https://instagram.com/le_fets_crochet",
+    "id": "stephanie salazar||muñecos tejidos a crochet personalizados||8115880678"
+  },
+  {
+    "name": "Olga Morales",
+    "service": "Bienes raíces",
+    "resident": false,
+    "phone": "8131004949",
+    "discount": true,
+    "cat": "finanzas",
+    "hidden": false,
+    "socialMode": "hide",
+    "socialDisplay": "",
+    "socialUrl": "",
+    "id": "olga morales||bienes raíces||8131004949"
+  },
+  {
+    "name": "Oziel Zenteno",
+    "service": "Agencia de viajes",
+    "resident": false,
+    "phone": "8126312592",
+    "discount": false,
+    "cat": "otros",
+    "hidden": false,
+    "socialMode": "link",
+    "socialDisplay": "viajesnatours.com",
+    "socialUrl": "https://www.viajesnatours.com",
+    "id": "oziel zenteno||agencia de viajes||8126312592"
+  },
+  {
+    "name": "Diana Constantino",
+    "service": "4 boletos para Harry Styles 31jul, general C",
+    "resident": false,
+    "phone": "5571668814",
+    "discount": true,
+    "cat": "otros",
+    "hidden": false,
+    "socialMode": "hide",
+    "socialDisplay": "",
+    "socialUrl": "",
+    "id": "diana constantino||4 boletos para harry styles 31jul, general c||5571668814"
   }
 ]
