@@ -8,7 +8,10 @@
   },
   {
     "action": "merge",
-    "names": ["Ilana", "Ilana Madriz"],
+    "names": [
+      "Ilana",
+      "Ilana Madriz"
+    ],
     "into": "Ilana Madriz",
     "reason": "Misma persona, llenó el formulario dos veces con teléfonos distintos",
     "date": "2026-04-09"
@@ -39,5 +42,15 @@
     "value": false,
     "reason": "Ajustó sus precios, el descuento ya no aplica. Solicitado por Bryan vía WhatsApp el 2026-05-04.",
     "date": "2026-05-04"
+  },
+  {
+    "action": "merge",
+    "names": [
+      "Alejandra Torres",
+      "Alejandra Torres Guzmán"
+    ],
+    "into": "Alejandra Torres",
+    "reason": "Misma persona (mismo teléfono 8110273369 y mismo servicio), llenó el formulario dos veces. Fusión hecha en su momento pero registrada retroactivamente.",
+    "date": "2026-08-30"
   }
 ]
